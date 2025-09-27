@@ -57,32 +57,6 @@ Error determine_min_number_system(const char *word, int *system) {
     }
 
 }
-// Error convert_to_n_system(const char *number, const int system, char **res) {
-//     Error er;
-//     int resNumberSize = 10;
-//     char* resNumber = malloc(sizeof(char) * resNumberSize);
-//     int curResIndex = 0;
-//     int numberIn10;
-//     if((er = conver_to_10_system(number, system, &numberIn10)) != OK) {
-//         return er;
-//     }
-//     while(numberIn10 != 0) {
-//         int remainder = numberIn10 % system;
-//         char remainderChar;
-//         if((er = int_to_char(remainder, &remainderChar)) != OK) return er;
-//         if(curResIndex + 1 >= resNumberSize){
-//             resNumberSize *= 2;
-//             resNumber = realloc(resNumber, sizeof(char) * resNumberSize);
-//         }
-//         resNumber[curResIndex] = remainderChar;
-//         curResIndex++;
-//         numberIn10 /= system;
-//     }
-//     resNumber[curResIndex] = '\0';
-//     reverse_string(resNumber);
-//     *res = resNumber;
-//     return OK;
-// }
 Error conver_to_10_system(const char *number, const int system, int *res){
     Error er;
     int len = strlen(number);

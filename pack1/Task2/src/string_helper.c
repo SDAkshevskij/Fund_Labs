@@ -61,8 +61,13 @@ Error read_word(char **word){
     while((c = getchar()) != ' ' && c != '\n'){
         if(nextBufferIndex == bufferSize - 1){
             bufferSize *= 2;
-            buffer = realloc(buffer, bufferSize);
-            if(buffer == NULL) return MEMORY_ALLOCATION_ERROR;
+            char *newBuffer = realloc(buffer, sizeof(char) * bufferSize);
+            if(newBuffer == NULL) {
+                free(buffer);
+                return MEMORY_ALLOCATION_ERROR;
+            }
+            buffer = newBuffer;
+
         }
         buffer[nextBufferIndex] = c;
         nextBufferIndex++;
