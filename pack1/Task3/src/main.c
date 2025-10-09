@@ -9,11 +9,11 @@
 
 int main(int argc, char* argv[]) {
     if(argc < 2){
-        print_error(WRONG_ARGUMENT_AMOUNT);
+        print_status(WRONG_ARGUMENT_AMOUNT);
         return WRONG_ARGUMENT_AMOUNT;
     }
     if(!is_flag(argv[1])){
-        print_error(WRONG_FLAG);
+        print_status(WRONG_FLAG);
         return WRONG_FLAG;
     }
     Error er;
@@ -21,12 +21,12 @@ int main(int argc, char* argv[]) {
     switch(flag){
         case 'q':
             if(argc != 6){
-                print_error(WRONG_ARGUMENT_AMOUNT);
+                print_status(WRONG_ARGUMENT_AMOUNT);
                 return WRONG_ARGUMENT_AMOUNT;
             }
             for(int i = 2; i < 6; i++){
                 if((er = check_double(argv[i])) != OK){
-                    print_error(er);
+                    print_status(er);
                     return er;
                 }
             }
@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
             Equation* equation_results;
             int resultsAmo;
             if((er = process_flag_q(eps, a, b, c, &equation_results, &resultsAmo)) != OK){
-                print_error(er);
+                print_status(er);
                 return er;
             }
             for(int i = 0; i < resultsAmo; i++){
@@ -60,15 +60,15 @@ int main(int argc, char* argv[]) {
             break;
         case 'm':
             if(argc != 4){
-                print_error(WRONG_ARGUMENT_AMOUNT);
+                print_status(WRONG_ARGUMENT_AMOUNT);
                 return WRONG_ARGUMENT_AMOUNT;
             }
             if((er = check_integer(argv[2])) != OK){
-                print_error(er);
+                print_status(er);
                 return er;
             }
             if((er = check_integer(argv[3])) != OK){
-                print_error(er);
+                print_status(er);
                 return er;
             }
             int num1 = abs(atoi(argv[2]));
@@ -81,18 +81,18 @@ int main(int argc, char* argv[]) {
                 printf("%d is not multiple to %d\n", num1, num2);
             }
             else if(er == NUMBER_IS_ZERO){
-                print_error(NUMBER_IS_ZERO);
+                print_status(NUMBER_IS_ZERO);
                 return NUMBER_IS_ZERO;
             }
             break;
         case 't':
             if(argc != 6){
-                print_error(WRONG_ARGUMENT_AMOUNT);
+                print_status(WRONG_ARGUMENT_AMOUNT);
                 return WRONG_ARGUMENT_AMOUNT;
             }
             for(int i = 2; i < 6; i++){
                 if((er = check_double(argv[i])) != OK){
-                    print_error(er);
+                    print_status(er);
                     return er;
                 }
             }
@@ -108,16 +108,16 @@ int main(int argc, char* argv[]) {
                 printf("triangle is not right\n");
             }
             else if(er == NUMBER_IS_ZERO){
-                print_error(NUMBER_IS_ZERO);
+                print_status(NUMBER_IS_ZERO);
                 return er;
             }
             else if(er == NEGATIVE_NUMBER){
-                print_error(NEGATIVE_NUMBER);
+                print_status(NEGATIVE_NUMBER);
                 return er;
             }
             break;
         default:
-            print_error(UNKNOWN_FLAG);
+            print_status(UNKNOWN_FLAG);
             return UNKNOWN_FLAG;
     }
     return OK;

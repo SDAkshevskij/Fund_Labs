@@ -1,7 +1,7 @@
 #include "../include/error_manager.h"
 #include <stdio.h>
 
-void print_error(Error error){
+void print_status(Status error){
     switch (error)
     {
     case NOT_OK:

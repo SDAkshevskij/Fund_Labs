@@ -10,22 +10,22 @@
 
 
 int main(int argc, char* argv[]) {
-    Error er = OK;
+    Status er = OK;
     if(argc != 3){
-        print_error(WRONG_ARGUMENT_AMOUNT);
+        print_status(WRONG_ARGUMENT_AMOUNT);
         return WRONG_ARGUMENT_AMOUNT;
     }
     char *inputFilePath = argv[1];
     char *outputFilePath = argv[2];
     FILE *inputFile = fopen(inputFilePath, "r");
     if(inputFile == NULL){
-        print_error(CANT_OPEN_FILE);
+        print_status(CANT_OPEN_FILE);
         return CANT_OPEN_FILE;
     }
     FILE *outputFile = fopen(outputFilePath, "w");
     if(outputFile == NULL){
         fclose(inputFile);
-        print_error(CANT_OPEN_FILE);
+        print_status(CANT_OPEN_FILE);
         return CANT_OPEN_FILE;
     }
 
@@ -46,7 +46,7 @@ int main(int argc, char* argv[]) {
         free(word);
     }
     if(er != OK && er != EMPTY_STRING) {
-        print_error(er);
+        print_status(er);
         fclose(inputFile);
         fclose(outputFile);
         return er;

@@ -1,6 +1,4 @@
 #include "../include/solve.h"
-#include "../include/number_helper.h"
-#include "../include/string_helper.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
@@ -47,7 +45,7 @@ void process_flag_s(FILE *inputFile, FILE *outputFile) {
             alphaCount = 0;
         }
         else {
-            if(!isalnum(curC) && !isspace(curC)){
+            if(!isalnum(curC) && curC != ' '){
                 alphaCount++;
             }
         }
@@ -58,7 +56,7 @@ void process_flag_s(FILE *inputFile, FILE *outputFile) {
         alphaCount = 0;
     }
 }
-Error process_flag_a(FILE *inputFile, FILE *outputFile) {
+Status process_flag_a(FILE *inputFile, FILE *outputFile) {
     char c;
     while((c = fgetc(inputFile)) != EOF){
         if(isdigit(c)){
@@ -66,7 +64,7 @@ Error process_flag_a(FILE *inputFile, FILE *outputFile) {
         }
         else {
             char *numIn16;
-            Error er = convert_to_16((int)c, &numIn16);
+            Status er = convert_to_16((int)c, &numIn16);
             if(er != OK) return er;
             fprintf(outputFile, "%s ", numIn16);
             free(numIn16);
@@ -74,8 +72,8 @@ Error process_flag_a(FILE *inputFile, FILE *outputFile) {
     }
     return OK;
 }
-Error convert_to_16(int num, char **res) {
-    Error er;
+Status convert_to_16(int num, char **res) {
+    Status er;
     int resNumberSize = 10;
     char* resNumber = malloc(sizeof(char) * resNumberSize);
     int curResIndex = 0;
@@ -102,7 +100,7 @@ Error convert_to_16(int num, char **res) {
     return OK;
 }
 
-Error int_to_char(const int val, char *res){
+Status int_to_char(const int val, char *res){
     if(val >= 0 && val <= 9){
         *res = '0' + val;
         return OK;
@@ -112,4 +110,16 @@ Error int_to_char(const int val, char *res){
         return OK;
     }
     return TOO_LARGE_NUMBER;
+}
+
+void reverse_string(char *string){
+    int start = 0;
+    int end = strlen(string) - 1;
+    while(start < end){
+        char buffer = string[start];
+        string[start] = string[end];
+        string[end] = buffer;
+        start++;
+        end--;
+    }
 }

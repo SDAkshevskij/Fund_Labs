@@ -42,7 +42,7 @@ int is_prime(int x) {
     }
     return 1;
 }
-Error to_hex(int x, char **res) {
+Status to_hex(int x, char **res) {
     if(x < 0){
         return NEGATIVE_NUMBER;
     }
@@ -131,7 +131,7 @@ void print_table_of_degrees(int x) {
         printf("\n");
     }
 }
-Error calc_pref_sum(int x, int *res) {
+Status calc_pref_sum(int x, int *res) {
     if(x < 0){
         return NEGATIVE_NUMBER;
     }
@@ -145,7 +145,7 @@ Error calc_pref_sum(int x, int *res) {
     *res = (int)prefSum;
     return OK;
 }
-Error factorial(int x, int *res) {
+Status factorial(int x, int *res) {
     if(x > 10){
         return TOO_LARGE_NUMBER;
     }

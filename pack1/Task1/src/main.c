@@ -6,10 +6,10 @@
 
 int main(int argc, char* argv[]) {
     if(argc != 3){
-        print_error(WRONG_ARGUMENT_AMOUNT);
+        print_status(WRONG_ARGUMENT_AMOUNT);
         return WRONG_ARGUMENT_AMOUNT;
     }
-    Error er;
+    Status er;
     if((is_integer(argv[1]) && is_flag(argv[2])) || (is_flag(argv[1])) && is_integer(argv[2])){
         int x;
         char* flag;
@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
             case 'h':
                 int* multiples = get_multiples(x);
                 if(multiples == NULL){
-                    print_error(MEMORY_ALLOCATION_ERROR);
+                    print_status(MEMORY_ALLOCATION_ERROR);
                     return MEMORY_ALLOCATION_ERROR;
                 }
                 print_multiples(multiples);
@@ -42,7 +42,7 @@ int main(int argc, char* argv[]) {
             case 's':
                 char* hex;
                 if(er = to_hex(x, &hex)){
-                    print_error(er);
+                    print_status(er);
                     return er;
                 }
                 print_hex(hex);
@@ -50,11 +50,11 @@ int main(int argc, char* argv[]) {
                 break;
             case 'e':
                 if(x > 10){
-                    print_error(TOO_LARGE_NUMBER);
+                    print_status(TOO_LARGE_NUMBER);
                     return TOO_LARGE_NUMBER;
                 }
                 if(x < 1){
-                    print_error(NON_NATURAL_NUMBER);
+                    print_status(NON_NATURAL_NUMBER);
                     return NON_NATURAL_NUMBER;
                 }
                 print_table_of_degrees(x);
@@ -62,7 +62,7 @@ int main(int argc, char* argv[]) {
             case 'a':
                 int prefSum;
                 if(er = calc_pref_sum(x, &prefSum)){
-                    print_error(er);
+                    print_status(er);
                     return er;
                 }
                 printf("%d\n", prefSum);
@@ -70,13 +70,13 @@ int main(int argc, char* argv[]) {
             case 'f':
                 int fact;
                 if(er = factorial(x, &fact)){
-                    print_error(er);
+                    print_status(er);
                     return er;
                 }
                 printf("%d\n", fact);
                 break;
             default:
-                print_error(WRONG_FLAG);
+                print_status(WRONG_FLAG);
                 break;
         }
     }

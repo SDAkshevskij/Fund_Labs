@@ -1,9 +1,14 @@
-#include "../include/error_manager.h"
+#include "../include/status_manager.h"
 #include <stdio.h>
 
-void print_error(Error error){
-    switch (error)
-    {
+void print_status(Status error){
+    switch (error){
+    case OK:
+        printf("Error: everything is fine!\n");
+        break;
+    case YOU_FORGET_ABOUT_PARENTHESIS:
+        printf("Error: you forget about parenthesis! again...\n");
+        break;
     case NOT_OK:
         printf("Error: not ok!\n");
         break;
@@ -28,6 +33,12 @@ void print_error(Error error){
     case NUMBER_IS_ZERO:
         printf("Error: number must be not zero!\n");
         break;
+    case INVALID_NUMBER:
+        printf("Error: invalid number value!\n");
+        break;
+    case INVALID_NUMBER_SYSTEM:
+        printf("Error: invalid number system!\n");
+        break;
     case TOO_LARGE_NUMBER:
         printf("Error: number is too large to process!\n");
         break;
@@ -36,6 +47,18 @@ void print_error(Error error){
         break;
     case NO_SOLUTION:
         printf("Error: this equation has no solutions!\n");
+        break;
+    case CANT_OPEN_FILE:
+        printf("Error: can`t open file!\n");
+        break;
+    case TOO_LONG_WORD:
+        printf("Error: too long word to process!\n");
+        break;
+    case INVALID_CHARACTER:
+        printf("Error: input have invalid characters!\n");
+        break;
+    case EMPTY_STRING:
+        printf("Error: an empty string was received!\n");
         break;
     default:
         printf("Error: unknown error %d !\n", error);

@@ -52,7 +52,7 @@ int is_flag(char* string){
     }
     return 1;
 }
-Error read_word(char **word){
+Status read_word(char **word){
     int bufferSize = 10;
     char* buffer = malloc(sizeof(char) * bufferSize);
     if(buffer == NULL) return MEMORY_ALLOCATION_ERROR;
@@ -61,13 +61,8 @@ Error read_word(char **word){
     while((c = getchar()) != ' ' && c != '\n'){
         if(nextBufferIndex == bufferSize - 1){
             bufferSize *= 2;
-            char *newBuffer = realloc(buffer, sizeof(char) * bufferSize);
-            if(newBuffer == NULL) {
-                free(buffer);
-                return MEMORY_ALLOCATION_ERROR;
-            }
-            buffer = newBuffer;
-
+            buffer = realloc(buffer, bufferSize);
+            if(buffer == NULL) return MEMORY_ALLOCATION_ERROR;
         }
         buffer[nextBufferIndex] = c;
         nextBufferIndex++;
@@ -76,7 +71,7 @@ Error read_word(char **word){
     *word = buffer;
     return OK;
 }
-Error read_natural_integer(int *res) {
+Status read_natural_integer(int *res) {
     char* word;
     if(read_word(&word)) {
         return MEMORY_ALLOCATION_ERROR;

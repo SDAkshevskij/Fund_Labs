@@ -8,7 +8,7 @@
 #include <string.h>
 
 
-Error file_read_word(FILE* file, char **word){
+Status file_read_word(FILE* file, char **word){
     const int MAX_WORD_LEN = 100;
     char* buffer = malloc(MAX_WORD_LEN + 2);
     if(buffer == NULL) return MEMORY_ALLOCATION_ERROR;
@@ -24,7 +24,7 @@ Error file_read_word(FILE* file, char **word){
     *word = buffer;
     return OK;
 }
-Error is_suitable_number(const char *word) {
+Status is_suitable_number(const char *word) {
     for(int i = 0; *(word + i) != '\0'; i++){
         if(!(isalpha(*(word + i)) || isdigit(*(word + i)))){
             return INVALID_CHARACTER;
@@ -32,8 +32,8 @@ Error is_suitable_number(const char *word) {
     }
     return OK;
 }
-Error determine_min_number_system(const char *word, int *system) {
-    Error er;
+Status determine_min_number_system(const char *word, int *system) {
+    Status er;
     if((er = is_suitable_number(word)) != OK){
         return er;
     }
@@ -57,8 +57,34 @@ Error determine_min_number_system(const char *word, int *system) {
     }
 
 }
-Error conver_to_10_system(const char *number, const int system, int *res){
-    Error er;
+// Error convert_to_n_system(const char *number, const int system, char **res) {
+//     Error er;
+//     int resNumberSize = 10;
+//     char* resNumber = malloc(sizeof(char) * resNumberSize);
+//     int curResIndex = 0;
+//     int numberIn10;
+//     if((er = conver_to_10_system(number, system, &numberIn10)) != OK) {
+//         return er;
+//     }
+//     while(numberIn10 != 0) {
+//         int remainder = numberIn10 % system;
+//         char remainderChar;
+//         if((er = int_to_char(remainder, &remainderChar)) != OK) return er;
+//         if(curResIndex + 1 >= resNumberSize){
+//             resNumberSize *= 2;
+//             resNumber = realloc(resNumber, sizeof(char) * resNumberSize);
+//         }
+//         resNumber[curResIndex] = remainderChar;
+//         curResIndex++;
+//         numberIn10 /= system;
+//     }
+//     resNumber[curResIndex] = '\0';
+//     reverse_string(resNumber);
+//     *res = resNumber;
+//     return OK;
+// }
+Status conver_to_10_system(const char *number, const int system, int *res){
+    Status er;
     int len = strlen(number);
     long sum = 0;
     long pow = 1;
@@ -76,7 +102,7 @@ Error conver_to_10_system(const char *number, const int system, int *res){
     *res = sum;
     return OK;
 }
-Error char_to_int(const char chr, int *res){
+Status char_to_int(const char chr, int *res){
     if(chr >= '0' && chr <= '9'){
         *res = chr - '0';
         return OK;
@@ -91,7 +117,7 @@ Error char_to_int(const char chr, int *res){
     }
     return INVALID_CHARACTER;
 } 
-Error int_to_char(const int val, char *res){
+Status int_to_char(const int val, char *res){
     if(val >= 0 && val <= 9){
         *res = '0' + val;
         return OK;

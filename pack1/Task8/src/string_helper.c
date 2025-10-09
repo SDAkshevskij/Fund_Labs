@@ -1,45 +1,20 @@
 #include "../include/string_helper.h"
-#include "../include/error_manager.h"
+#include "../include/status_manager.h"
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <limits.h>
 #include <ctype.h>
 
 
-int is_empty_string(char* string){
-    if(string == NULL || *string == '\0'){
+int is_empty_string(const char* string){
+    if (string == NULL || *string == '\0') {
         return 1;
     }
     return 0;
 }
-Error check_natural_integer(char* string){
-    if(is_empty_string(string)){
-        return NOT_A_NUMBER;
-    }
-    if(*string == '-'){
-        return NEGATIVE_NUMBER;
-    }
-    return check_integer(string);
-}
-Error check_integer(char* string){
-    if(is_empty_string(string)){
-        return NOT_A_NUMBER;
-    }
-    int i = 0;
-    if(*string == '-'){
-        i++;
-    }
-    for(; *(string + i) != '\0'; i++){
-        if(!isdigit(*(string + i))){
-            return NOT_A_NUMBER;
-        }
-    }
-    if(i > 9){
-        return TOO_LARGE_NUMBER;
-    }
-    return OK;
-}
+
 int is_flag(char* string){
     if(string == NULL || *string == '\0'){
         return 0;
@@ -56,105 +31,89 @@ int is_flag(char* string){
     return 1;
 }
 
-Error read_word(char **word){
+Status read_word(char **word){
     int bufferSize = 10;
-    char* buffer = malloc(sizeof(char) * bufferSize);
+    char* buffer = (char*)malloc(sizeof(char) * bufferSize);
     if(buffer == NULL) return MEMORY_ALLOCATION_ERROR;
+
     int nextBufferIndex = 0;
     char c;
     while((c = getchar()) != ' ' && c != '\n'){
         if(nextBufferIndex == bufferSize - 1){
             bufferSize *= 2;
-            char *newBuffer = realloc(buffer, sizeof(char) * bufferSize);
-            if(newBuffer == NULL) {
-                free(buffer);
-                return MEMORY_ALLOCATION_ERROR;
-            }
-            buffer = newBuffer;
+            char *newBuffer = (char*)realloc(buffer, bufferSize);
 
+            if(newBuffer == NULL) return MEMORY_ALLOCATION_ERROR;
+
+            buffer = newBuffer;
         }
+
         buffer[nextBufferIndex] = c;
         nextBufferIndex++;
     }
+
     buffer[nextBufferIndex] = '\0';
     *word = buffer;
     return OK;
 }
-Error read_natural_integer(int *res) {
+
+Status read_natural_integer(int *res) {
     char* word;
-    if(read_word(&word) != OK) {
+    if (read_word(&word) != OK) {
         return MEMORY_ALLOCATION_ERROR;
     }
-    if(check_natural_integer(word) != OK){
-        return NON_NATURAL_NUMBER;
-    }
-    if(strlen(word) > 9){
-        return TOO_LARGE_NUMBER;
-    }
-    *res = atoi(word);
+   
+    Status status = string_to_natural_int(word, res);
     free(word);
-    return OK;
+
+    return status;
 }
 
-Error check_double(char* string){
-    if(is_empty_string(string)) return NOT_A_NUMBER;
-    int i = 0;
-    int digitsBeforeDotAmo = 0;
-    if(*string == '-'){
-        i++;
-    }
-    int dotAmount = 0;
-    for(; *(string + i) != '\0'; i++){
-        char chr = *(string  + i);
-        if(!isdigit(chr)){
-            if(chr == '.' && dotAmount == 0) {
-                dotAmount++;
-            }
-            else {
-                return NOT_A_NUMBER;
-            }
-        }
-        if(dotAmount == 0){
-            digitsBeforeDotAmo++;
-        }
-    }
-    if(digitsBeforeDotAmo > 10) return TOO_LARGE_NUMBER;
-    
-    return OK;
-}
-
-Error read_float(double *res){
+Status read_float(double *res){
     char *word;
     if(read_word(&word)){
         return MEMORY_ALLOCATION_ERROR;
     }
-    Error er;
-    if(er = check_double(word) != OK){
-        return er;
-    }
-    *res = atof(word);
+
+    Status status = string_to_double(word, res);
     free(word);
-    return OK;
+
+    return status;
 }
-Error remove_leading_zeros(char **numberLink) {
+
+Status remove_leading_zeros(char **numberLink) {
     char *number = *numberLink;
-    if(is_empty_string(number)) return EMPTY_STRING;
-    if(*number != '0') return OK;
+    if (is_empty_string(number)) return EMPTY_STRING;
+
+    if (*number != '0') return OK;
+
     int leadingZerosAmo = 0;
-    for(; number[leadingZerosAmo] == '0'; leadingZerosAmo++){}
+    for (; number[leadingZerosAmo] == '0'; leadingZerosAmo++){}
+
     int numLen = strlen(number);
+
+    if (numLen == leadingZerosAmo) {
+        *numberLink = "0";
+        return OK;
+    }
+
     char *newNumber = malloc(sizeof(char) * (numLen - leadingZerosAmo + 1));
-    for(int i = leadingZerosAmo; i < numLen; i++){
+    for (int i = leadingZerosAmo; i < numLen; i++){
         newNumber[i - leadingZerosAmo] = number[i];
     }
+
     newNumber[numLen - leadingZerosAmo] = '\0';
+
     free(*numberLink);
     *numberLink = newNumber;
+
     return OK;
 }
+
 void reverse_string(char *string){
     int start = 0;
     int end = strlen(string) - 1;
+
     while(start < end){
         char buffer = string[start];
         string[start] = string[end];
@@ -162,4 +121,55 @@ void reverse_string(char *string){
         start++;
         end--;
     }
+}
+
+Status string_to_int(char *word, int *res) {
+    char *endptr = NULL;
+    long num = strtol(word, &endptr, 10);
+
+    if (endptr == word) {
+        return NOT_A_NUMBER;
+    }
+
+    if (*endptr != '\0') {
+        return NOT_A_NUMBER;
+    }
+
+    if (num < INT_MIN || num > INT_MAX) {
+        return TOO_LARGE_NUMBER;
+    }
+
+    *res = num;
+
+    return OK;
+}
+
+Status string_to_natural_int(char *word, int *res) {
+    Status status = string_to_int(word, res);
+    if (status != OK) { 
+        return status;
+    }
+
+    if (*res < 0) {
+        return NON_NATURAL_NUMBER;
+    }
+
+    return OK;
+}
+
+Status string_to_double(char *word, double *res) {
+    char *endptr = NULL;
+    double num = strtod(word, &endptr);
+
+    if (endptr == word) {
+        return NOT_A_NUMBER;
+    }
+
+    if (*endptr != '\0') {
+        return NOT_A_NUMBER;
+    }
+
+    *res = num;
+
+    return OK;
 }

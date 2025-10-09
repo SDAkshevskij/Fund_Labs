@@ -1,8 +1,9 @@
-#ifndef ERROR_MANAGER_H
-#define ERROR_MANAGER_H
+#ifndef Status_MANAGER_H
+#define Status_MANAGER_H
 
 typedef enum {
     OK,
+    YOU_FORGET_ABOUT_PARENTHESIS,
     NOT_OK,
     WRONG_FLAG,
     WRONG_ARGUMENT_AMOUNT,
@@ -11,12 +12,18 @@ typedef enum {
     NEGATIVE_NUMBER,
     NON_NATURAL_NUMBER,
     NUMBER_IS_ZERO,
+    INVALID_NUMBER,
+    INVALID_NUMBER_SYSTEM,
     TOO_LARGE_NUMBER,
     SOLUTION_IS_ANY_NUMBER,
-    NO_SOLUTION
+    NO_SOLUTION,
+    CANT_OPEN_FILE,
+    TOO_LONG_WORD,
+    INVALID_CHARACTER,
+    EMPTY_STRING
 } Status;
 
 void print_status(Status error);
 
 
-#endif 
+#endif

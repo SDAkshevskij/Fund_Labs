@@ -1,5 +1,5 @@
-#ifndef ERROR_MANAGER_H
-#define ERROR_MANAGER_H
+#ifndef Status_MANAGER_H
+#define Status_MANAGER_H
 
 typedef enum {
     OK,
@@ -21,9 +21,9 @@ typedef enum {
     TOO_LONG_WORD,
     INVALID_CHARACTER,
     EMPTY_STRING
-} Error;
+} Status;
 
-void print_error(Error error);
+void print_status(Status error);
 
 
 #endif

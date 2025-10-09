@@ -10,9 +10,9 @@ typedef enum {
     NEGATIVE_NUMBER,
     NON_NATURAL_NUMBER,
     TOO_LARGE_NUMBER
-} Error;
+} Status;
 
-void print_error(Error error);
+void print_status(Status error);
 
 
 #endif 

@@ -8,13 +8,13 @@ typedef enum {
     
 } Flag;
 
-Error check_natural_integer(char* string);
-Error check_integer(char* string);
+Status check_natural_integer(char* string);
+Status check_integer(char* string);
 int is_empty_string(char* string);
 int is_flag(char* string);
-Error read_word(char **word);
-Error read_natural_integer(int *res);
-Error check_double(char* string);
-Error read_float(double *res);
+Status read_word(char **word);
+Status read_natural_integer(int *res);
+Status check_double(char* string);
+Status read_float(double *res);
 
 #endif 

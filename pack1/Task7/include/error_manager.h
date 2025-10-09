@@ -19,9 +19,9 @@ typedef enum {
     TOO_LONG_WORD,
     INVALID_CHARACTER,
     EMPTY_STRING
-} Error;
+} Status;
 
-void print_error(Error error);
+void print_status(Status error);
 
 
 #endif

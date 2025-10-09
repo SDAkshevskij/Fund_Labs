@@ -16,7 +16,7 @@ typedef enum {
     NO_SOLUTION
 } Error;
 
-void print_error(Error error);
+void print_status(Error error);
 
 
 #endif 

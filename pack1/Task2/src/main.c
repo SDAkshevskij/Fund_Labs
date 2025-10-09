@@ -8,15 +8,15 @@
 
 int main(int argc, char* argv[]) {
     int t;
-    Error er = OK;
+    Status er = OK;
     if(er = read_natural_integer(&t)){
-        print_error(er);
+        print_status(er);
         return 0;
     }
     int requestsAmo = t;
     int* requests = (int*)malloc(sizeof(int) * requestsAmo);
     if(requests == NULL){
-        print_error(MEMORY_ALLOCATION_ERROR);
+        print_status(MEMORY_ALLOCATION_ERROR);
         return 0;
     }
     int curRequest = 0;
@@ -24,7 +24,7 @@ int main(int argc, char* argv[]) {
     int maxReq = 0;
     while(t--){
         if(er = read_natural_integer(&req)){
-            print_error(er);
+            print_status(er);
             return 0;
         }
         maxReq = max(maxReq, req);
@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
     int* primeArray = (int*)malloc(sizeof(int) * primeArraySize);
     if(primeArray == NULL){
         free(requests);
-        print_error(MEMORY_ALLOCATION_ERROR);
+        print_status(MEMORY_ALLOCATION_ERROR);
         return 0;
     }
     set_prime_array(&primeArray, primeArraySize);

@@ -13,7 +13,7 @@ int is_empty_string(char* string){
     }
     return 0;
 }
-Error check_natural_integer(char* string){
+Status check_natural_integer(char* string){
     if(is_empty_string(string)){
         return NOT_A_NUMBER;
     }
@@ -22,7 +22,7 @@ Error check_natural_integer(char* string){
     }
     return check_integer(string);
 }
-Error check_integer(char* string){
+Status check_integer(char* string){
     if(is_empty_string(string)){
         return NOT_A_NUMBER;
     }
@@ -56,7 +56,7 @@ int is_flag(char* string){
     return 1;
 }
 
-Error read_word(char **word){
+Status read_word(char **word){
     int bufferSize = 10;
     char* buffer = malloc(sizeof(char) * bufferSize);
     if(buffer == NULL) return MEMORY_ALLOCATION_ERROR;
@@ -65,13 +65,8 @@ Error read_word(char **word){
     while((c = getchar()) != ' ' && c != '\n'){
         if(nextBufferIndex == bufferSize - 1){
             bufferSize *= 2;
-            char *newBuffer = realloc(buffer, sizeof(char) * bufferSize);
-            if(newBuffer == NULL) {
-                free(buffer);
-                return MEMORY_ALLOCATION_ERROR;
-            }
-            buffer = newBuffer;
-
+            buffer = realloc(buffer, bufferSize);
+            if(buffer == NULL) return MEMORY_ALLOCATION_ERROR;
         }
         buffer[nextBufferIndex] = c;
         nextBufferIndex++;
@@ -80,7 +75,7 @@ Error read_word(char **word){
     *word = buffer;
     return OK;
 }
-Error read_natural_integer(int *res) {
+Status read_natural_integer(int *res) {
     char* word;
     if(read_word(&word)) {
         return MEMORY_ALLOCATION_ERROR;
@@ -96,7 +91,7 @@ Error read_natural_integer(int *res) {
     return OK;
 }
 
-Error check_double(char* string){
+Status check_double(char* string){
     if(is_empty_string(string)) return NOT_A_NUMBER;
     int i = 0;
     int digitsBeforeDotAmo = 0;
@@ -123,12 +118,12 @@ Error check_double(char* string){
     return OK;
 }
 
-Error read_float(double *res){
+Status read_float(double *res){
     char *word;
     if(read_word(&word)){
         return MEMORY_ALLOCATION_ERROR;
     }
-    Error er;
+    Status er;
     if(er = check_double(word) != OK){
         return er;
     }
