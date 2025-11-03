@@ -1,0 +1,6 @@
+1 Bob Bobin 2345 1 2 3 4 5
+2 Astive Ter 134 2 2 2 2 2        
+4 Max Remer 200 3 3 3 2 2 
+3 Ckarl Bobin 5435 0 0 0 0 0  
+5 Assd Sf 32 4 5 6 7 8
+5 Assdas Sf 32 4 5 6 7 8

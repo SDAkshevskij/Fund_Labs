@@ -1,0 +1,30 @@
+#ifndef Status_MANAGER_H
+#define Status_MANAGER_H
+
+typedef enum {
+    OK,
+    YOU_FORGET_ABOUT_PARENTHESIS,
+    NOT_OK,
+    WRONG_FLAG,
+    WRONG_ARGUMENT_AMOUNT,
+    MEMORY_ALLOCATION_ERROR,
+    NOT_A_NUMBER,
+    NEGATIVE_NUMBER,
+    NON_NATURAL_NUMBER,
+    NUMBER_IS_ZERO,
+    INVALID_NUMBER,
+    INVALID_NUMBER_SYSTEM,
+    TOO_LARGE_NUMBER,
+    SOLUTION_IS_ANY_NUMBER,
+    NO_SOLUTION,
+    CANT_OPEN_FILE,
+    TOO_LONG_WORD,
+    INVALID_CHARACTER,
+    END_OF_INPUT,
+    EMPTY_STRING
+} Status;
+
+void print_status(Status error);
+
+
+#endif
