@@ -4,6 +4,13 @@
 #include <string.h>
 #include "../include/linked_list.h"
 
+char to_open_bracket(char bracket) {
+    if (bracket == ')') return '(';
+    if (bracket == ']') return '[';
+    if (bracket == '}') return '{';
+    if (bracket == '>') return '<';
+}
+
 int check_brackets(const char *str) {
     LinkedList stack = create_list();
 
@@ -18,11 +25,6 @@ int check_brackets(const char *str) {
         }
         str++;
     }
-}
-
-char to_open_bracket(char bracket) {
-    if (bracket == ')') return '(';
-    if (bracket == ']') return '[';
-    if (bracket == '}') return '{';
-    if (bracket == '>') return '<';
+    if (stack.size != 0) return 0;
+    return 1;
 }
